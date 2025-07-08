@@ -323,48 +323,113 @@
                 </div>
             </div>
 
-            <!-- 結果セクション -->
-            <div id="resultSection" class="hidden">
-                <div style="text-align: center; margin-bottom: 2rem;">
-                    <h2>✅ おすすめの相談窓口</h2>
-                    <p>あなたの状況に最適な窓口をご提案します</p>
-                </div>
+            /**
+ * 診断結果を画面に表示するための関数（HTML構造対応版）
+ * @param {object} result - recommendServiceから返された結果オブジェクト
+ */
+function displayResults(result) {
+    // 0. まず質問セクションを非表示にし、結果セクションを表示する
+    document.getElementById('questionSection').classList.add('hidden'); // 質問セクションのIDを想定
+    document.getElementById('resultSection').classList.remove('hidden');
 
-                <div class="result-container" id="resultContainer">
-                    <!-- 結果がここに動的に追加される -->
-                </div>
+    // 結果を表示する各コンテナ要素を取得
+    const resultContainer = document.getElementById('resultContainer');
+    const contactButtonContainer = document.getElementById('contactButtonContainer');
+    const clinicsContainer = document.getElementById('clinicsContainer');
+    const clinicsList = document.getElementById('clinicsList');
+    const resultTextContainer = document.getElementById('resultTextContainer');
+    const resultText = document.getElementById('resultText');
 
-                <div class="contact-section">
-                    <h3>📞 今すぐ相談してみましょう</h3>
-                    <div id="contactButtonContainer">
-                        <!-- 連絡ボタンがここに追加される -->
+    // 中身を一度空にする
+    resultContainer.innerHTML = '';
+    contactButtonContainer.innerHTML = '';
+    clinicsList.innerHTML = '';
+
+    // 1. メインの推奨窓口（primary）の情報を取得
+    const primaryService = counselingServices[result.primary];
+
+    if (!primaryService) {
+        resultContainer.innerHTML = '<p>エラー：該当する相談窓口が見つかりませんでした。</p>';
+        console.error('指定されたIDの相談窓口が見つかりません:', result.primary);
+        return;
+    }
+
+    // 2. メインの推奨窓口のHTMLを組み立て、resultContainerに挿入
+    const primaryHTML = `
+        <div class="result-card primary">
+            <h3>${primaryService.name}</h3>
+            <p><strong>相談形式：</strong> ${primaryService.serviceType || '情報なし'}</p>
+            <p><strong>対応時間：</strong> ${primaryService.hours || '情報なし'}</p>
+            <p><strong>特徴：</strong> ${(primaryService.features || []).join(' / ')}</p>
+            <p>${primaryService.description || ''}</p>
+            <p class="notice">${result.notice}</p>
+        </div>
+    `;
+    resultContainer.innerHTML += primaryHTML;
+
+    // 3. 連絡先ボタンを作成
+    if (primaryService.contact && primaryService.contact.startsWith('0')) {
+        contactButtonContainer.innerHTML = `<a href="tel:${primaryService.contact}" class="primary-button">📞 ${primaryService.contact} に電話する</a>`;
+    } else if (primaryService.contact) {
+        contactButtonContainer.innerHTML = `<a href="${primaryService.contact}" target="_blank" class="primary-button">公式サイトへ</a>`;
+    }
+
+    // 4. 第2候補（secondary）があれば、それも表示
+    if (result.secondary && result.secondary.length > 0) {
+        let secondaryHTML = '<h4>こちらの窓口もご検討ください</h4>';
+        result.secondary.forEach(serviceId => {
+            const secondaryService = counselingServices[serviceId];
+            if (secondaryService) {
+                secondaryHTML += `
+                    <div class="result-card secondary">
+                        <h5>${secondaryService.name}</h5>
+                        <p><strong>相談形式：</strong> ${secondaryService.serviceType || '情報なし'}</p>
                     </div>
-                </div>
+                `;
+            }
+        });
+        resultContainer.innerHTML += secondaryHTML;
+    }
 
-                <div id="clinicsContainer" class="hidden">
-                    <h4>利用可能な医療機関（例）</h4>
-                    <div id="clinicsList">
-                        <!-- クリニック情報がここに追加される -->
-                    </div>
+    // 5. クリニック情報があれば表示（medical_mentalが推奨された場合など）
+    if (primaryService.clinics && primaryService.clinics.length > 0) {
+        clinicsContainer.classList.remove('hidden');
+        primaryService.clinics.forEach(clinic => {
+            clinicsList.innerHTML += `
+                <div class="clinic-item">
+                    <strong>${clinic.name}</strong><br>
+                    電話: ${clinic.phone}, 時間: ${clinic.hours}
                 </div>
+            `;
+        });
+    }
 
-                <div class="warning-box">
-                    <strong>ご利用前の注意</strong>
-                    緊急性が高い場合や、推奨された窓口で対応が困難な場合は、
-                    他の専門機関への紹介も受けられます。まずはお気軽にご相談ください。
-                </div>
+    // --- ここからはボタンのイベント設定 ---
 
-                <div class="action-buttons">
-                    <button class="secondary-button" id="restartButton">🔄 もう一度診断する</button>
-                    <button class="secondary-button" id="showResultTextButton">📄 結果をテキストで表示</button>
-                </div>
+    // 「もう一度診断する」ボタン
+    document.getElementById('restartButton').addEventListener('click', () => {
+        // 状態をリセットして最初の質問に戻る処理（別途作成が必要な場合があります）
+        // location.reload(); // 簡単な方法としてはページ全体のリロード
+        // もし状態管理をしていれば、
+        // appState.currentStep = 0;
+        // appState.answers = {};
+        // appState.showResult = false;
+        // renderApp(); // 再描画
+        location.reload(); // シンプルで確実な方法
+    });
 
-                <div id="resultTextContainer" class="hidden">
-                    <h4>診断結果（コピーして保存してください）</h4>
-                    <div class="result-text" id="resultText"></div>
-                </div>
-            </div>
-
+    // 「結果をテキストで表示」ボタン
+    document.getElementById('showResultTextButton').addEventListener('click', () => {
+        let text = `【あなたへのおすすめ】\n`;
+        text += `${primaryService.name}\n`;
+        text += `相談形式：${primaryService.serviceType || '情報なし'}\n`;
+        text += `連絡先：${primaryService.contact || '情報なし'}\n`;
+        text += `\n${result.notice}\n`;
+        
+        resultText.innerText = text;
+        resultTextContainer.classList.toggle('hidden');
+    });
+}
             <div class="footer">
                 💡 すべての相談は秘密が守られます。<br>相談は勇気のいることですが、専門家があなたをサポートします。<br>一人で抱え込まず、まずは気軽にご連絡ください。
             </div>
@@ -384,7 +449,6 @@
             sessionId: generateSessionId()
         };
 
-        // 相談窓口データ
         // 相談窓口データ
 const counselingServices = {
     // 24時間対応
