@@ -3,444 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>教職員向け相談窓口提案ツール</title>
+    <title>相談窓口 診断ツール</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        /* 簡単なデザインをつけます */
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f7f9;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            line-height: 1.6;
+            margin: 0;
             padding: 20px;
         }
-
         .container {
-            max-width: 800px;
+            max-width: 700px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .main-header {
-            text-align: center;
-            color: #1e40af;
-            padding: 3rem 2rem 2rem;
-            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
-        }
-
-        .main-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            font-weight: 700;
-        }
-
-        .main-header p {
-            font-size: 1.2rem;
-            color: #64748b;
-        }
-
-        .content {
+            background-color: #fff;
             padding: 2rem;
-        }
-
-        .progress-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-
-        .progress-text {
-            font-size: 1rem;
-            color: #64748b;
-        }
-
-        .progress-bar {
-            height: 6px;
-            background-color: #e2e8f0;
-            border-radius: 3px;
-            margin: 1rem 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #3b82f6, #06b6d4);
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
-        .question-container {
-            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
-            padding: 2.5rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-            border: 1px solid #e2e8f0;
-        }
-
-        .question-container h3 {
-            font-size: 1.5rem;
-            color: #1e293b;
-            margin-bottom: 2rem;
-            text-align: center;
-        }
-
-        .option-button {
-            width: 100%;
-            padding: 1.5rem;
-            margin: 0.75rem 0;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .option-button:hover {
-            border-color: #3b82f6;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.1);
-        }
-
-        .back-button {
-            background: #64748b;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: background 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
-
-        .back-button:hover {
-            background: #475569;
-        }
-
-        .result-container {
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-            color: white;
-            padding: 3rem;
-            border-radius: 15px;
-            margin: 2rem 0;
-        }
-
-        .result-container h3 {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-
-        .result-container p {
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            opacity: 0.9;
-        }
-
-        .result-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .result-item {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-
-        .feature-tag {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            margin: 0.25rem;
-            display: inline-block;
-            font-size: 0.9rem;
-        }
-
-        .contact-section {
-            margin: 3rem 0;
-        }
-
-        .contact-section h3 {
-            color: #1e293b;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-button {
-            background: linear-gradient(135deg, #f59e0b, #f97316);
-            color: white;
-            padding: 1.5rem 2rem;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin: 1rem 0;
-            transition: all 0.3s ease;
-        }
-
-        .contact-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.3);
-        }
-
-        .clinic-info {
-            background-color: #f1f5f9;
-            padding: 1.5rem;
-            border-radius: 12px;
-            margin: 1rem 0;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .clinic-info strong {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #1e293b;
-        }
-
-        .warning-box {
-            background: #fef3cd;
-            border: 1px solid #f6e05e;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin: 2rem 0;
-            color: #92400e;
-        }
-
-        .warning-box strong {
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-
-        .action-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin: 2rem 0;
-        }
-
-        .secondary-button {
-            background: #64748b;
-            color: white;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s ease;
-        }
-
-        .secondary-button:hover {
-            background: #475569;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 3rem;
-            padding: 2rem;
-            color: #64748b;
-            font-size: 1rem;
-            line-height: 1.8;
-        }
-
         .hidden {
             display: none;
         }
-
-        .result-text {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: monospace;
-            white-space: pre-wrap;
-            font-size: 0.9rem;
-            color: #1e293b;
-            height: 200px;
-            overflow-y: auto;
+        .progress-bar {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 1rem;
         }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-            
-            .result-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-            
-            .main-header h1 {
-                font-size: 2rem;
-            }
+        .progress-bar-inner {
+            height: 10px;
+            background-color: #007bff;
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+        }
+        .option-button {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #fff;
+            font-size: 1rem;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+        .option-button:hover {
+            background-color: #f0f8ff;
+            border-color: #007bff;
+        }
+        .result-container {
+            margin-bottom: 2rem;
+        }
+        .result-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .result-card.primary {
+            border-left: 5px solid #007bff;
+            background-color: #f0f8ff;
+        }
+        .result-card.secondary {
+             background-color: #fafafa;
+        }
+        .notice {
+            margin-top: 1rem;
+            font-style: italic;
+            color: #555;
+        }
+        .primary-button, .secondary-button {
+            display: inline-block;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .primary-button {
+            background-color: #007bff;
+            color: white;
+        }
+        .secondary-button {
+            background-color: #e9ecef;
+            color: #333;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .result-text {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            padding: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="main-header">
-            <h1>📋 相談窓口提案ツール</h1>
-            <p>簡単な質問で、あなたに最適な相談窓口をご提案します</p>
+        <!-- 質問セクション -->
+        <div id="questionSection">
+            <!-- 質問がここに動的に表示されます -->
         </div>
 
-        <div class="content">
-            <!-- 質問セクション -->
-            <div id="questionSection">
-                <div class="progress-container">
-                    <span class="progress-text" id="progressText">質問 1 / 4</span>
-                    <span class="progress-text" id="progressPercent">25% 完了</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 25%"></div>
-                </div>
+        <!-- 結果セクション（最初は非表示） -->
+        <div id="resultSection" class="hidden">
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <h2>✅ おすすめの相談窓口</h2>
+                <p>あなたの状況に最適な窓口をご提案します</p>
+            </div>
 
-                <button class="back-button hidden" id="backButton">← 前の質問に戻る</button>
+            <div class="result-container" id="resultContainer">
+                <!-- 結果がここに動的に追加される -->
+            </div>
 
-                <div class="question-container">
-                    <h3 id="questionTitle">今のあなたの状況は？</h3>
-                    <div id="optionsContainer">
-                        <!-- オプションボタンがここに動的に追加される -->
-                    </div>
+            <div class="contact-section">
+                <h3>📞 今すぐ相談してみましょう</h3>
+                <div id="contactButtonContainer">
+                    <!-- 連絡ボタンがここに追加される -->
                 </div>
             </div>
 
-            /**
- * 診断結果を画面に表示するための関数（HTML構造対応版）
- * @param {object} result - recommendServiceから返された結果オブジェクト
- */
-function displayResults(result) {
-    // 0. まず質問セクションを非表示にし、結果セクションを表示する
-    document.getElementById('questionSection').classList.add('hidden'); // 質問セクションのIDを想定
-    document.getElementById('resultSection').classList.remove('hidden');
-
-    // 結果を表示する各コンテナ要素を取得
-    const resultContainer = document.getElementById('resultContainer');
-    const contactButtonContainer = document.getElementById('contactButtonContainer');
-    const clinicsContainer = document.getElementById('clinicsContainer');
-    const clinicsList = document.getElementById('clinicsList');
-    const resultTextContainer = document.getElementById('resultTextContainer');
-    const resultText = document.getElementById('resultText');
-
-    // 中身を一度空にする
-    resultContainer.innerHTML = '';
-    contactButtonContainer.innerHTML = '';
-    clinicsList.innerHTML = '';
-
-    // 1. メインの推奨窓口（primary）の情報を取得
-    const primaryService = counselingServices[result.primary];
-
-    if (!primaryService) {
-        resultContainer.innerHTML = '<p>エラー：該当する相談窓口が見つかりませんでした。</p>';
-        console.error('指定されたIDの相談窓口が見つかりません:', result.primary);
-        return;
-    }
-
-    // 2. メインの推奨窓口のHTMLを組み立て、resultContainerに挿入
-    const primaryHTML = `
-        <div class="result-card primary">
-            <h3>${primaryService.name}</h3>
-            <p><strong>相談形式：</strong> ${primaryService.serviceType || '情報なし'}</p>
-            <p><strong>対応時間：</strong> ${primaryService.hours || '情報なし'}</p>
-            <p><strong>特徴：</strong> ${(primaryService.features || []).join(' / ')}</p>
-            <p>${primaryService.description || ''}</p>
-            <p class="notice">${result.notice}</p>
-        </div>
-    `;
-    resultContainer.innerHTML += primaryHTML;
-
-    // 3. 連絡先ボタンを作成
-    if (primaryService.contact && primaryService.contact.startsWith('0')) {
-        contactButtonContainer.innerHTML = `<a href="tel:${primaryService.contact}" class="primary-button">📞 ${primaryService.contact} に電話する</a>`;
-    } else if (primaryService.contact) {
-        contactButtonContainer.innerHTML = `<a href="${primaryService.contact}" target="_blank" class="primary-button">公式サイトへ</a>`;
-    }
-
-    // 4. 第2候補（secondary）があれば、それも表示
-    if (result.secondary && result.secondary.length > 0) {
-        let secondaryHTML = '<h4>こちらの窓口もご検討ください</h4>';
-        result.secondary.forEach(serviceId => {
-            const secondaryService = counselingServices[serviceId];
-            if (secondaryService) {
-                secondaryHTML += `
-                    <div class="result-card secondary">
-                        <h5>${secondaryService.name}</h5>
-                        <p><strong>相談形式：</strong> ${secondaryService.serviceType || '情報なし'}</p>
-                    </div>
-                `;
-            }
-        });
-        resultContainer.innerHTML += secondaryHTML;
-    }
-
-    // 5. クリニック情報があれば表示（medical_mentalが推奨された場合など）
-    if (primaryService.clinics && primaryService.clinics.length > 0) {
-        clinicsContainer.classList.remove('hidden');
-        primaryService.clinics.forEach(clinic => {
-            clinicsList.innerHTML += `
-                <div class="clinic-item">
-                    <strong>${clinic.name}</strong><br>
-                    電話: ${clinic.phone}, 時間: ${clinic.hours}
+            <div id="clinicsContainer" class="hidden">
+                <h4>利用可能な医療機関（例）</h4>
+                <div id="clinicsList">
+                    <!-- クリニック情報がここに追加される -->
                 </div>
-            `;
-        });
-    }
+            </div>
 
-    // --- ここからはボタンのイベント設定 ---
+            <div class="warning-box" style="background-color: #fff3cd; padding: 1rem; border-radius: 8px; margin-top: 2rem;">
+                <strong>ご利用前の注意</strong>
+                <p style="margin: 0;">緊急性が高い場合や、推奨された窓口で対応が困難な場合は、
+                他の専門機関への紹介も受けられます。まずはお気軽にご相談ください。</p>
+            </div>
 
-    // 「もう一度診断する」ボタン
-    document.getElementById('restartButton').addEventListener('click', () => {
-        // 状態をリセットして最初の質問に戻る処理（別途作成が必要な場合があります）
-        // location.reload(); // 簡単な方法としてはページ全体のリロード
-        // もし状態管理をしていれば、
-        // appState.currentStep = 0;
-        // appState.answers = {};
-        // appState.showResult = false;
-        // renderApp(); // 再描画
-        location.reload(); // シンプルで確実な方法
-    });
+            <div class="action-buttons">
+                <button class="secondary-button" id="restartButton">🔄 もう一度診断する</button>
+                <button class="secondary-button" id="showResultTextButton">📄 結果をテキストで表示</button>
+            </div>
 
-    // 「結果をテキストで表示」ボタン
-    document.getElementById('showResultTextButton').addEventListener('click', () => {
-        let text = `【あなたへのおすすめ】\n`;
-        text += `${primaryService.name}\n`;
-        text += `相談形式：${primaryService.serviceType || '情報なし'}\n`;
-        text += `連絡先：${primaryService.contact || '情報なし'}\n`;
-        text += `\n${result.notice}\n`;
-        
-        resultText.innerText = text;
-        resultTextContainer.classList.toggle('hidden');
-    });
-}
-            <div class="footer">
-                💡 すべての相談は秘密が守られます。<br>相談は勇気のいることですが、専門家があなたをサポートします。<br>一人で抱え込まず、まずは気軽にご連絡ください。
+            <div id="resultTextContainer" class="hidden">
+                <h4>診断結果（コピーして保存してください）</h4>
+                <div class="result-text" id="resultText"></div>
             </div>
         </div>
     </div>
 
+
     <script>
-        // GASのWebアプリURLを設定してください
+    //============== JAVASCRIPT ここから ==============
+　　 // GASのWebアプリURLを設定してください
         const GAS_URL = 'https://script.google.com/macros/s/AKfycbyA1sOBWKdieibi4Gk40lD-8cN0h_58AAQ0JUwvqFumPQuwf7hf8R3mL1AJ5H3nrA9j/exec';
 
-        // アプリケーションの状態
+     // １．アプリケーションの状態
         let appState = {
             currentStep: 0,
             answers: {},
@@ -449,280 +183,230 @@ function displayResults(result) {
             sessionId: generateSessionId()
         };
 
-        // 相談窓口データ
-const counselingServices = {
-    // 24時間対応
-    health_support_24h: {
-        name: '教職員電話健康相談24',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-     },
-    // 医療機関
-    medical_chugoku_central: {
-        name: 'メンタルヘルス相談（中国中央病院）',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    female_doctor_phone: {
-        name: '女性医師電話相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    // 即時対応
-    hotline_kokoro: {
-        name: 'こころの悩みホットライン',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    caregiving_support_phone: {
-        name: '介護電話相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    // 総合・汎用
-    health_and_mind_consult: {
-        name: 'こころとからだの健康相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    mental_health_consult: {
-        name: '電話・面談メンタルヘルス相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    // 近日中・対面など
-    line_consult: {
-        name: 'LINEを使ったメンタルヘルス相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    teacher_support_consult: {
-        name: '教職員サポート相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    yorozu_consult: {
-        name: '教職員よろず相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    sc_consult: {
-        name: 'スクールカウンセラー等を活用した教職員メンタルヘルス相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    stress_consult: {
-        name: '教職員ストレス相談',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    // 急がない
-    web_consult: {
-        name: 'Web相談（こころの相談）',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    support_group: {
-        name: '教職員を支える会',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    },
-    encounter_group: {
-        name: 'エンカウンターグループ体験講座',
-        contact: '012-345-6789',
-        hours: '平日 9:00-12:00, 13:00-16:00',
-        serviceType: '電話相談',
-        features: ['教職員専用', '匿名OK', '緊急対応'],
-        description: '県教育庁の専門相談窓口。緊急性の高い場合は他の24時間対応窓口もご案内します。'
-    }
-    // ...その他必要な窓口を追加
-};
+  
+    // 2. 相談窓口データ (サンプル情報を充実させました)
+    const counselingServices = {
+        health_support_24h: {
+            name: '教職員電話健康相談24',
+            serviceType: '電話相談',
+            contact: '012-345-0001',
+            hours: '24時間365日',
+            features: ['24時間対応', '匿名OK', '教職員専用'],
+            description: 'いつでも話せる安心の24時間対応窓口です。緊急の際はこちらにご相談ください。'
+        },
+        medical_chugoku_central: {
+            name: 'メンタルヘルス相談（中国中央病院）',
+            serviceType: '医療機関受診',
+            contact: '012-345-0002',
+            hours: '平日昼間 (要予約)',
+            features: ['専門医対応', '対面相談', '治療連携'],
+            description: '医師による専門的な診察や相談が受けられます。'
+        },
+        female_doctor_phone: {
+            name: '女性医師電話相談',
+            serviceType: '電話相談',
+            contact: '012-345-0003',
+            hours: '指定日時 (要確認)',
+            features: ['女性医師', '匿名OK', 'プライバシー配慮'],
+            description: '女性特有の健康問題について、女性医師に電話で相談できます。'
+        },
+        hotline_kokoro: {
+            name: 'こころの悩みホットライン',
+            serviceType: '電話相談',
+            contact: '012-345-0004',
+            hours: '平日 9:00-17:00',
+            features: ['仕事の悩み特化', '専門相談員'],
+            description: '職場の人間関係や業務に関する悩みに特化した相談窓口です。'
+        },
+        caregiving_support_phone: {
+            name: '介護電話相談',
+            serviceType: '電話相談',
+            contact: '012-345-0005',
+            hours: '平日 9:00-17:00',
+            features: ['介護問題専門', '家族の悩み'],
+            description: 'ご家族の介護など、私生活に関する悩みを専門家に相談できます。'
+        },
+        health_and_mind_consult: {
+            name: 'こころとからだの健康相談',
+            serviceType: '電話・オンライン・対面相談',
+            contact: '012-345-0006',
+            hours: '平日 9:00-18:00',
+            features: ['総合相談', '幅広い対応', '初期相談に最適'],
+            description: '心や体の不調、仕事や家庭の問題など、幅広い悩みに対応する総合窓口です。'
+        },
+        mental_health_consult: {
+            name: '電話・面談メンタルヘルス相談',
+            serviceType: '電話・対面相談',
+            contact: '012-345-0007',
+            hours: '平日夜間・土日も対応 (要予約)',
+            features: ['夜間休日対応', '臨床心理士', '継続サポート'],
+            description: '平日夜や週末など、ご都合の良い時間帯に専門家との相談が可能です。'
+        },
+        line_consult: {
+            name: 'LINEを使ったメンタルヘルス相談',
+            serviceType: 'オンライン相談',
+            contact: 'https://example.com/line',
+            hours: '平日夜間・土日中心',
+            features: ['LINEで手軽に', '若手教員向け'],
+            description: 'チャット形式で気軽に専門家に相談できる、新しい形の窓口です。'
+        },
+        teacher_support_consult: {
+            name: '教職員サポート相談',
+            serviceType: '対面相談',
+            contact: '要予約',
+            hours: '平日夜間中心',
+            features: ['対面', '教職員特化', 'じっくり相談'],
+            description: '仕事終わりに、落ち着いた環境で専門家と対面で話せます。'
+        },
+        yorozu_consult: {
+            name: '教職員よろず相談',
+            serviceType: '対面相談',
+            contact: '要予約',
+            hours: '土日中心',
+            features: ['休日対応', '対面', '何でも相談'],
+            description: '仕事からプライベートまで、あらゆる悩みを休日に相談できる窓口です。'
+        },
+        sc_consult: {
+            name: 'スクールカウンセラー等を活用した教職員メンタルヘルス相談',
+            serviceType: '対面相談',
+            contact: '各学校のSCに確認',
+            hours: '平日昼間',
+            features: ['身近な専門家', '学校内での相談'],
+            description: '勤務校のスクールカウンセラーなど、身近な専門家に相談できます。'
+        },
+        stress_consult: {
+            name: '教職員ストレス相談',
+            serviceType: '対面相談',
+            contact: '要予約',
+            hours: '平日昼間',
+            features: ['ストレス専門', '対面'],
+            description: 'ストレスの原因分析や対処法について、専門家と対面で相談します。'
+        },
+        web_consult: {
+            name: 'Web相談（こころの相談）',
+            serviceType: 'メール相談',
+            contact: 'https://example.com/webform',
+            hours: '24時間受付',
+            features: ['自分のペースで', '文章で整理'],
+            description: '文章でじっくり考えをまとめて相談したい方に適しています。'
+        },
+        support_group: {
+            name: '教職員を支える会',
+            serviceType: 'グループ活動',
+            contact: '月1回開催',
+            hours: '土日中心',
+            features: ['仲間との交流', 'ピアサポート'],
+            description: '同じ立場の仲間と悩みを分かち合い、支え合うグループ活動です。'
+        },
+        encounter_group: {
+            name: 'エンカウンターグループ体験講座',
+            serviceType: 'グループ活動',
+            contact: '定期開催',
+            hours: '土日中心',
+            features: ['対人関係スキル向上', '体験学習'],
+            description: 'グループでの対話を通じて、自己理解や他者理解を深めます。'
+        }
+    };
 
-// 質問データ
-const questions = [
-    {
-        id: 'urgency',
-        question: '今のあなたの状況は？',
-        options: [
-            { value: 'emergency', label: '🚨 なるべく早く誰かに相談したい' },
-            { value: 'urgent', label: '⚡ 数日中には相談したい' },
-            { value: 'slowly', label: '🕐 急がないが支援に繋がりたい' }
-        ]
-    },
-    {
-        id: 'symptoms',
-        question: '主な相談内容は何ですか？',
-        options: [
-            { value: 'mental', label: '😟 気分の落ち込みや不安、イライラ' },
-            { value: 'physical', label: '😴 頭痛や疲労、眠れないなど身体的なこと' },
-            { value: 'workplace', label: '💼 職場の人間関係や仕事上の悩み' },
-            { value: 'private', label: '🏠 個人的な問題や家族に関する悩み' }
-        ]
-    },
-    {
-        id: 'preference',
-        question: '相談方法の希望は？',
-        options: [
-            { value: 'phone', label: '📞 電話で相談したい' },
-            { value: 'online', label: '💻 オンラインやメールで相談したい' },
-            { value: 'face', label: '👥 対面でじっくり話したい' },
-            { value: 'medical', label: '🏥 医師の診察を受けたい' }
-        ]
-    },
-    {
-        id: 'timing',
-        question: '相談を希望する時間帯は？',
-        options: [
-            { value: 'anytime', label: '🌙 24時間対応' },
-            { value: 'business', label: '🌅 平日の日中' },
-            { value: 'evening', label: '🌆 平日の夕方・夜' },
-            { value: 'weekend', label: '📅 週休日' }
-        ]
-    }
-];
+    // 3. 質問データ
+    const questions = [
+        { id: 'urgency', question: '今のあなたの状況は？', options: [ { value: 'emergency', label: '🚨 即時対応してほしい' }, { value: 'urgent', label: '⚡ 数日中に相談したい' }, { value: 'slowly', label: '🕐 急がないが支援に繋がりたい' } ] },
+        { id: 'symptoms', question: '主な相談内容は何ですか？', options: [ { value: 'mental', label: '😟 気分の落ち込み・不安など精神的なもの' }, { value: 'physical', label: '😴 頭痛・疲労など身体的なもの' }, { value: 'workplace', label: '💼 仕事に関する悩み' }, { value: 'private', label: '🏠 私生活に関する悩み' } ] },
+        { id: 'preference', question: '相談方法の希望は？', options: [ { value: 'phone', label: '📞 電話で相談したい' }, { value: 'online', label: '💻 オンラインやメールで相談したい' }, { value: 'face', label: '👥 対面でじっくり話したい' }, { value: 'medical', label: '🏥 医師の診察を受けたい' } ] },
+        { id: 'timing', question: '相談可能な時間帯は？', options: [ { value: 'anytime', label: '🌙 いつでも（24時間対応希望）' }, { value: 'business', label: '🌅 平日の日中' }, { value: 'evening', label: '🌆 平日の夕方・夜間' }, { value: 'weekend', label: '📅 土日・祝日' } ] }
+    ];
 
-// セッションID生成
+    // 3.5　セッションID生成
         function generateSessionId() {
             return Math.random().toString(36).substring(2, 14) + Date.now().toString(36);
         }
-/**
- * ユーザーの回答に基づいて最適な相談窓口を決定する関数（改訂版）
- * @param {object} answers - ユーザーの回答オブジェクト {urgency: '...', symptoms: '...', ...}
- * @returns {object} - { primary: 'service_key', secondary: ['key1', 'key2'], notice: '補足情報' } 形式のオブジェクト
- */
-function recommendService(answers) {
-    const { urgency, symptoms, preference, timing } = answers;
 
-    // デフォルトの返却値（万が一、どの条件にも合わなかった場合の受け皿）
-    const fallbackResult = {
-        primary: 'health_and_mind_consult', // 最も汎用的な相談窓口
-        secondary: ['mental_health_consult'],
-        notice: 'ご希望に近い総合相談窓口をご案内します。'
-    };
+    // 4. 診断ロジック
+    function recommendService(answers) {
+        const { urgency, symptoms, preference, timing } = answers;
+        const fallbackResult = { primary: 'health_and_mind_consult', secondary: ['mental_health_consult'], notice: 'ご希望に近い総合相談窓口をご案内します。' };
+        if (urgency === 'emergency' && timing === 'anytime') return { primary: 'health_support_24h', secondary: [], notice: 'ご希望に合う24時間対応の窓口です。' };
+        if (preference === 'medical') return { primary: 'medical_chugoku_central', secondary: ['female_doctor_phone'], notice: '医師による相談には、対面が可能な「メンタルヘルス相談（中国中央病院）」（平日昼間）をお勧めします。電話での相談をご希望の場合は「女性医師電話相談」もございます。' };
+        if (urgency === 'emergency') {
+            if (preference === 'phone') {
+                if (symptoms === 'workplace') return { primary: 'hotline_kokoro', secondary: ['mental_health_consult'], notice: '仕事の悩みに特化した電話窓口です。' };
+                if (symptoms === 'private') return { primary: 'caregiving_support_phone', secondary: ['mental_health_consult'], notice: '私生活の悩みに対応する電話窓口です。' };
+            }
+            if (timing === 'evening' || timing === 'weekend') return { primary: 'mental_health_consult', secondary: ['health_and_mind_consult'], notice: '夜間・休日も対応可能な相談窓口です。' };
+            return { primary: 'health_and_mind_consult', secondary: ['mental_health_consult'], notice: '幅広い相談に対応できる総合窓口です。' };
+        }
+        if (urgency === 'urgent') {
+            if (preference === 'online' && (timing === 'evening' || timing === 'weekend')) return { primary: 'line_consult', secondary: [], notice: 'LINEで気軽に相談できる窓口です。' };
+            if (preference === 'face') {
+                if (timing === 'evening') return { primary: 'teacher_support_consult', secondary: ['yorozu_consult'], notice: '平日夜間に対面で相談できる窓口です。' };
+                if (timing === 'business' && symptoms === 'workplace') return { primary: 'sc_consult', secondary: ['stress_consult'], notice: '職場で身近な専門家に相談できます。' };
+                if (timing === 'business') return { primary: 'stress_consult', secondary: ['sc_consult'], notice: '平日昼間に対面で相談できる窓口です。' };
+            }
+            return { primary: 'mental_health_consult', secondary: ['health_and_mind_consult'], notice: '電話・対面で相談できる柔軟な窓口です。' };
+        }
+        if (urgency === 'slowly') {
+            if (preference === 'online') return { primary: 'web_consult', secondary: [], notice: 'ご自身のペースでメールで相談できます。' };
+            if (preference === 'face') return { primary: 'support_group', secondary: ['encounter_group'], notice: '同じ立場の仲間と交流できる場です。' };
+        }
+        return fallbackResult;
+    }
 
-    // =================================================================
-    // ステップ1：第一フラグ判定（24時間対応）
-    // =================================================================
-    if (urgency === 'emergency' && timing === 'anytime') {
-        return {
-            primary: 'health_support_24h',
-            secondary: [],
-            notice: 'ご希望に合う24時間対応の窓口です。'
+    // 5. 結果表示ロジック
+    function displayResults(result) {
+        document.getElementById('questionSection').classList.add('hidden');
+        document.getElementById('resultSection').classList.remove('hidden');
+        const resultContainer = document.getElementById('resultContainer');
+        const contactButtonContainer = document.getElementById('contactButtonContainer');
+        resultContainer.innerHTML = ''; contactButtonContainer.innerHTML = '';
+        const primaryService = counselingServices[result.primary];
+        if (!primaryService) { resultContainer.innerHTML = '<p>エラー</p>'; return; }
+        const primaryHTML = `<div class="result-card primary"><h3>${primaryService.name}</h3><p><strong>相談形式：</strong> ${primaryService.serviceType || ''}</p><p><strong>対応時間：</strong> ${primaryService.hours || ''}</p><p><strong>特徴：</strong> ${(primaryService.features || []).join(' / ')}</p><p>${primaryService.description || ''}</p><p class="notice">${result.notice}</p></div>`;
+        resultContainer.innerHTML += primaryHTML;
+        if (primaryService.contact && primaryService.contact.startsWith('0')) { contactButtonContainer.innerHTML = `<a href="tel:${primaryService.contact}" class="primary-button">📞 ${primaryService.contact} に電話する</a>`; } 
+        else if (primaryService.contact) { contactButtonContainer.innerHTML = `<a href="${primaryService.contact}" target="_blank" class="primary-button">公式サイトへ</a>`; }
+        if (result.secondary && result.secondary.length > 0) {
+            let secondaryHTML = '<h4>こちらの窓口もご検討ください</h4>';
+            result.secondary.forEach(id => {
+                const service = counselingServices[id];
+                if(service) secondaryHTML += `<div class="result-card secondary"><h5>${service.name}</h5><p><strong>相談形式：</strong> ${service.serviceType || ''}</p></div>`;
+            });
+            resultContainer.innerHTML += secondaryHTML;
+        }
+        document.getElementById('restartButton').onclick = () => location.reload();
+        document.getElementById('showResultTextButton').onclick = () => {
+            let text = `【あなたへのおすすめ】\n${primaryService.name}\n相談形式：${primaryService.serviceType || ''}\n連絡先：${primaryService.contact || ''}\n\n${result.notice}\n`;
+            document.getElementById('resultText').innerText = text;
+            document.getElementById('resultTextContainer').classList.toggle('hidden');
         };
     }
 
-    // =================================================================
-    // ステップ2：第二フラグ判定（医師の診察希望）
-    // =================================================================
-    if (preference === 'medical') {
-        return {
-            primary: 'medical_chugoku_central',
-            secondary: ['female_doctor_phone'],
-            notice: '医師による相談には、対面が可能な「メンタルヘルス相談（中国中央病院）」（平日昼間）をお勧めします。電話での相談をご希望の場合は「女性医師電話相談」もございます。'
-        };
-    }
-
-    // =================================================================
-    // ステップ3：第三フラグ判定（その他の希望に応じた詳細分岐）
-    // ここに来るのは「24時間希望ではない」かつ「医師の診察希望ではない」ユーザー
-    // =================================================================
-
-    // 3-1. 緊急度が「即時」の場合
-    if (urgency === 'emergency') {
-        // 相談方法が「電話」の場合、内容で細かく分岐
-        if (preference === 'phone') {
-            if (symptoms === 'workplace') {
-                return { primary: 'hotline_kokoro', secondary: ['mental_health_consult'], notice: '仕事の悩みに特化した電話窓口です。' };
-            }
-            if (symptoms === 'private') {
-                return { primary: 'caregiving_support_phone', secondary: ['mental_health_consult'], notice: '私生活の悩みに対応する電話窓口です。' };
-            }
-        }
-        // 夜間・休日の相談なら、形式を問わず汎用窓口を案内
-        if (timing === 'evening' || timing === 'weekend') {
-            return { primary: 'mental_health_consult', secondary: ['health_and_mind_consult'], notice: '夜間・休日も対応可能な相談窓口です。' };
-        }
-        // 上記以外の「即時」希望の受け皿（例：平日昼間の対面など）
-        return { primary: 'health_and_mind_consult', secondary: ['mental_health_consult'], notice: '幅広い相談に対応できる総合窓口です。' };
-    }
-
-    // 3-2. 緊急度が「近日中」の場合
-    if (urgency === 'urgent') {
-        if (preference === 'online' && (timing === 'evening' || timing === 'weekend')) {
-            return { primary: 'line_consult', secondary: [], notice: 'LINEで気軽に相談できる窓口です。' };
-        }
-        if (preference === 'face') {
-            if (timing === 'evening') {
-                return { primary: 'teacher_support_consult', secondary: ['yorozu_consult'], notice: '平日夜間に対面で相談できる窓口です。' };
-            }
-            if (timing === 'business' && symptoms === 'workplace') {
-                return { primary: 'sc_consult', secondary: ['stress_consult'], notice: '職場で身近な専門家に相談できます。' };
-            }
-            if (timing === 'business') {
-                return { primary: 'stress_consult', secondary: ['sc_consult'], notice: '平日昼間に対面で相談できる窓口です。' };
-            }
-        }
-        // 上記以外の「近日中」希望の受け皿（例：電話相談など）
-        return { primary: 'mental_health_consult', secondary: ['health_and_mind_consult'], notice: '電話・対面で相談できる柔軟な窓口です。' };
-    }
-
-    // 3-3. 緊急度が「急がない」の場合
-    if (urgency === 'slowly') {
-        if (preference === 'online') {
-            return { primary: 'web_consult', secondary: [], notice: 'ご自身のペースでメールで相談できます。' };
-        }
-        if (preference === 'face') {
-            return { primary: 'support_group', secondary: ['encounter_group'], notice: '同じ立場の仲間と交流できる場です。' };
+    // 6. 質問表示とクリック処理
+    function handleOptionClick(value) {
+        appState.answers[questions[appState.currentStep].id] = value;
+        appState.currentStep++;
+        if (appState.currentStep < questions.length) {
+            renderQuestion();
+        } else {
+            const result = recommendService(appState.answers);
+            displayResults(result);
         }
     }
-    
-    // どの条件にも合致しなかった場合
-    return fallbackResult;
-}
-      
 
+    function renderQuestion() {
+        const questionData = questions[appState.currentStep];
+        const progress = ((appState.currentStep + 1) / questions.length) * 100;
+        let html = `
+            <div class="progress-bar"><div class="progress-bar-inner" style="width: ${progress}%;"></div></div>
+            <p>質問 ${appState.currentStep + 1} / ${questions.length}</p>
+            <h2 class="question-title">${questionData.question}</h2>
+            <div class="options-grid">
+        `;
+        questionData.options.forEach(option => {
+            html += `<button class="option-button" onclick="handleOptionClick('${option.value}')">${option.label}</button>`;
+        });
+        html += `</div>`;
+        document.getElementById('questionSection').innerHTML = html;
+    }
        // GASにデータ送信（フォーム経由でCORS回避）
 function saveToGAS(answers, recommendation, clickedContact = false) {
     const now = new Date();
@@ -758,218 +442,14 @@ function submitFormToGAS(data) {
     }
     form.submit();
 }
+        
+    // 7. アプリの初期化
+    document.addEventListener('DOMContentLoaded', () => {
+        renderQuestion();
+    });
 
-
-        // 進捗バーを更新
-        function updateProgress() {
-            const progress = (appState.currentStep + 1) / questions.length;
-            const progressPercent = Math.round(progress * 100);
-            
-            document.getElementById('progressText').textContent = `質問 ${appState.currentStep + 1} / ${questions.length}`;
-            document.getElementById('progressPercent').textContent = `${progressPercent}% 完了`;
-            document.getElementById('progressFill').style.width = `${progressPercent}%`;
-        }
-
-        // 質問を表示
-        function displayQuestion() {
-            const question = questions[appState.currentStep];
-            document.getElementById('questionTitle').textContent = question.question;
-            
-            const optionsContainer = document.getElementById('optionsContainer');
-            optionsContainer.innerHTML = '';
-            
-            question.options.forEach(option => {
-                const button = document.createElement('button');
-                button.className = 'option-button';
-                button.textContent = option.label;
-                button.onclick = () => selectOption(option.value);
-                optionsContainer.appendChild(button);
-            });
-
-            // 戻るボタンの表示
-            const backButton = document.getElementById('backButton');
-            if (appState.currentStep > 0) {
-                backButton.classList.remove('hidden');
-            } else {
-                backButton.classList.add('hidden');
-            }
-
-            updateProgress();
-        }
-
-        // 選択肢を選択
-        function selectOption(value) {
-            const question = questions[appState.currentStep];
-            appState.answers[question.id] = value;
-
-            if (appState.currentStep < questions.length - 1) {
-                appState.currentStep++;
-                displayQuestion();
-            } else {
-                showResult();
-            }
-        }
-
-        // 結果を表示
-        async function showResult() {
-            const recommendation = getRecommendation(appState.answers);
-            
-            // データ保存
-            if (!appState.dataSaved) {
-                const saved = await saveToGAS(appState.answers, recommendation);
-                if (saved) {
-                    appState.dataSaved = true;
-                } else {
-                    console.warn('使用データの保存に失敗しました');
-                }
-            }
-
-            // UIの切り替え
-            document.getElementById('questionSection').classList.add('hidden');
-            document.getElementById('resultSection').classList.remove('hidden');
-
-            // 結果表示
-            const resultContainer = document.getElementById('resultContainer');
-            resultContainer.innerHTML = `
-                <h3>${recommendation.name}</h3>
-                <p>${recommendation.description}</p>
-                <div class="result-grid">
-                    <div class="result-item">📞 ${recommendation.contact}</div>
-                    <div class="result-item">🕐 ${recommendation.hours}</div>
-                </div>
-                <div>
-                    ${recommendation.features.map(feature => `<span class="feature-tag">${feature}</span>`).join('')}
-                </div>
-            `;
-
-            // 連絡ボタン
-            const contactButtonContainer = document.getElementById('contactButtonContainer');
-            if (recommendation.contact.startsWith('012-')) {
-                contactButtonContainer.innerHTML = `
-                    <button class="contact-button" onclick="handlePhoneContact('${recommendation.contact}')">
-                        📱 ${recommendation.contact} に電話する
-                    </button>
-                `;
-            } else if (recommendation.contact.startsWith('http')) {
-                contactButtonContainer.innerHTML = `
-                    <button class="contact-button" onclick="handleWebContact('${recommendation.contact}')">
-                        🌐 ウェブサイトを開く
-                    </button>
-                `;
-            } else {
-                contactButtonContainer.innerHTML = `
-                    <button class="contact-button" onclick="handleOtherContact('${recommendation.contact}')">
-                        📝 連絡方法を確認
-                    </button>
-                `;
-            }
-
-            // クリニック情報表示
-            if (recommendation.clinics) {
-                const clinicsContainer = document.getElementById('clinicsContainer');
-                clinicsContainer.classList.remove('hidden');
-                
-                const clinicsList = document.getElementById('clinicsList');
-                clinicsList.innerHTML = recommendation.clinics.map((clinic, index) => `
-                    <div class="clinic-info">
-                        <strong>${clinic.name}</strong>
-                        📞 ${clinic.phone}<br>
-                        🕐 ${clinic.hours}
-                        <button class="contact-button" style="margin-top: 1rem; padding: 0.75rem 1rem; font-size: 0.9rem;" 
-                                onclick="handleClinicContact('${clinic.phone}', '${clinic.name}')">
-                            📱 ${clinic.name}に電話
-                        </button>
-                    </div>
-                `).join('');
-            }
-        }
-
-        // 電話連絡の処理
-        async function handlePhoneContact(phone) {
-            const recommendation = getRecommendation(appState.answers);
-            await saveToGAS(appState.answers, recommendation, true);
-            
-            // 電話番号をクリップボードにコピー
-            try {
-                await navigator.clipboard.writeText(phone);
-                alert(`電話番号をクリップボードにコピーしました！\n電話番号: ${phone}`);
-            } catch (err) {
-                alert(`電話番号: ${phone}`);
-            }
-        }
-
-        // Web連絡の処理
-        async function handleWebContact(url) {
-            const recommendation = getRecommendation(appState.answers);
-            await saveToGAS(appState.answers, recommendation, true);
-            window.open(url, '_blank');
-        }
-
-        // その他の連絡方法
-        async function handleOtherContact(contact) {
-            const recommendation = getRecommendation(appState.answers);
-            await saveToGAS(appState.answers, recommendation, true);
-            alert(`連絡方法: ${contact}`);
-        }
-
-        // クリニック連絡の処理
-        async function handleClinicContact(phone, name) {
-            const recommendation = getRecommendation(appState.answers);
-            await saveToGAS(appState.answers, recommendation, true);
-            
-            try {
-                await navigator.clipboard.writeText(phone);
-                alert(`${name}の電話番号をクリップボードにコピーしました！\n電話番号: ${phone}`);
-            } catch (err) {
-                alert(`${name}の電話番号: ${phone}`);
-            }
-        }
-
-        // アプリを初期化
-        function initApp() {
-            displayQuestion();
-            
-            // イベントリスナー設定
-            document.getElementById('backButton').onclick = () => {
-                if (appState.currentStep > 0) {
-                    appState.currentStep--;
-                    displayQuestion();
-                }
-            };
-
-            document.getElementById('restartButton').onclick = () => {
-                appState.currentStep = 0;
-                appState.answers = {};
-                appState.showResult = false;
-                appState.dataSaved = false;
-                appState.sessionId = generateSessionId();
-                
-                document.getElementById('questionSection').classList.remove('hidden');
-                document.getElementById('resultSection').classList.add('hidden');
-                document.getElementById('resultTextContainer').classList.add('hidden');
-                
-                displayQuestion();
-            };
-
-            document.getElementById('showResultTextButton').onclick = () => {
-                const recommendation = getRecommendation(appState.answers);
-                const resultText = `【診断結果】
-推奨窓口: ${recommendation.name}
-連絡先: ${recommendation.contact}
-利用時間: ${recommendation.hours}
-相談形式: ${recommendation.serviceType}
-特徴: ${recommendation.features.join(', ')}
-説明: ${recommendation.description}`;
-                
-                document.getElementById('resultText').textContent = resultText;
-                document.getElementById('resultTextContainer').classList.remove('hidden');
-            };
-        }
-
-        // アプリ開始
-        document.addEventListener('DOMContentLoaded', initApp);
     </script>
-
+    
 <!-- 非表示フォーム（GAS送信用） -->
 <form id="gasForm" action="https://script.google.com/macros/s/AKfycbyA1sOBWKdieibi4Gk40lD-8cN0h_58AAQ0JUwvqFumPQuwf7hf8R3mL1AJ5H3nrA9j/exec" method="POST" target="hiddenFrame" style="display: none;">
   <input type="hidden" name="sessionId">
@@ -987,6 +467,6 @@ function submitFormToGAS(data) {
   <input type="hidden" name="hour">
 </form>
 <iframe name="hiddenFrame" style="display: none;"></iframe>
-    
+
 </body>
 </html>
