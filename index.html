@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>こころとからだの健康相談窓口提案ツール</title>
     <style>
-        /*デザイン */
+        /* 添付ファイルのデザインをここにペースト */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-              line-height: 1.6; color: #333; 
-              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .main-header { text-align: center; color: #1e40af; padding: 3rem 2rem 2rem; background: linear-gradient(135deg, #f8fafc, #e2e8f0); }
         .main-header h1 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700; }
@@ -29,7 +27,7 @@
         .result-container p { font-size: 1.1rem; margin-bottom: 2rem; opacity: 0.9; color: #334155; }
         .result-card { background: white; border-radius: 15px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.07); margin-bottom: 1.5rem; border: 1px solid #e2e8f0; }
         .result-card.primary { border-left: 5px solid #3b82f6; }
-        .result-card.secondary { background: #f8fafc; }
+        .result-card.secondary { border-left: 5px solid #9ca3af; background: #f8fafc; }
         .feature-tag { background-color: #e0e7ff; color: #4338ca; padding: 0.5rem 1rem; border-radius: 20px; margin: 0.25rem; display: inline-block; font-size: 0.9rem; font-weight: 500;}
         .contact-section { margin: 3rem 0; }
         .contact-section h3 { color: #1e293b; margin-bottom: 1.5rem; }
@@ -39,19 +37,18 @@
         .clinic-info strong { display: block; margin-bottom: 0.5rem; color: #1e293b; }
         .warning-box { background: #fef3cd; border: 1px solid #f6e05e; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; color: #92400e; }
         .warning-box strong { display: block; margin-bottom: 0.5rem; }
-        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 2rem 0; }
+        .action-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
         .secondary-button { background: #64748b; color: white; padding: 1rem 1.5rem; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: background 0.3s ease; }
         .secondary-button:hover { background: #475569; }
         .footer { text-align: center; margin-top: 3rem; padding: 2rem; color: #64748b; font-size: 1rem; line-height: 1.8; }
         .hidden { display: none; }
-        .result-text { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1rem; font-family: monospace; white-space: pre-wrap; font-size: 0.9rem; color: #1e293b; height: 200px; overflow-y: auto; }
         @media (max-width: 768px) { body { padding: 10px; } .action-buttons, .result-grid { grid-template-columns: 1fr; } .main-header h1 { font-size: 2rem; } }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="main-header">
-            <h1>📋 相談窓口提案ツール</h1>
+            <h1>📋 こころとからだの相談窓口提案ツール</h1>
             <p>簡単な質問に答えて、あなたに最適な相談窓口を見つけましょう</p>
         </div>
 
@@ -78,26 +75,28 @@
                     <h2>✅ おすすめの相談窓口</h2>
                     <p>あなたに最適な窓口をご提案します</p>
                 </div>
+
+                <!-- ボタンをここに移動 -->
+                <div class="action-buttons">
+                    <button class="secondary-button" id="restartButton">🔄 もう一度診断する</button>
+                    <button class="secondary-button" id="showResultTextButton">📄 結果をテキストでコピー</button>
+                </div>
+                
                 <div id="resultContainer"></div>
+
                 <div class="contact-section">
                     <h3>📞 今すぐ相談してみましょう</h3>
                     <div id="contactButtonContainer"></div>
                 </div>
+
                 <div id="clinicsContainer" class="hidden">
                     <h4>利用可能な医療機関（例）</h4>
                     <div id="clinicsList"></div>
                 </div>
+
                 <div class="warning-box">
                     <strong>ご利用前の注意</strong>
                     <p style="margin: 0;">緊急性が高い場合や、推奨された窓口で対応が困難な場合は、他の専門機関への紹介も受けられます。まずはお気軽にご相談ください。</p>
-                </div>
-                <div class="action-buttons">
-                    <button class="secondary-button" id="restartButton">🔄 もう一度診断する</button>
-                    <button class="secondary-button" id="showResultTextButton">📄 結果をテキストで表示</button>
-                </div>
-                <div id="resultTextContainer" class="hidden">
-                    <h4>診断結果（コピーして保存してください）</h4>
-                    <div class="result-text" id="resultText"></div>
                 </div>
             </div>
 
@@ -123,7 +122,7 @@
     // 相談窓口データ
     const counselingServices = {
         health_support_24h: { name: '教職員電話健康相談24', 
-                             serviceType: '電話相談', 
+                             serviceType: '電話相談',
                              contact: '012-345-0001', 
                              hours: '24時間365日', 
                              features: ['24時間対応', '匿名OK', '教職員専用'], 
@@ -131,29 +130,29 @@
         medical_chugoku_central: { name: 'メンタルヘルス相談（中国中央病院）',
                                   serviceType: '医療機関受診', 
                                   contact: '012-345-0002', 
-                                  hours: '平日昼間 (要予約)', 
-                                  features: ['専門医対応', '対面相談', '治療連携'], 
+                                  hours: '平日昼間 (要予約)',
+                                  features: ['専門医対応', '対面相談', '治療連携'],
                                   description: '医師による専門的な診察や相談が受けられます。' },
         female_doctor_phone: { name: '女性医師電話相談', 
-                              serviceType: '電話相談',
-                              contact: '012-345-0003',
-                              hours: '指定日時 (要確認)',
-                              features: ['女性医師', '匿名OK', 'プライバシー配慮'], 
+                              serviceType: '電話相談', 
+                              contact: '012-345-0003', 
+                              hours: '指定日時 (要確認)', 
+                              features: ['女性医師', '匿名OK', 'プライバシー配慮'],
                               description: '女性特有の健康問題について、女性医師に電話で相談できます。' },
-        hotline_kokoro: { name: 'こころの悩みホットライン', 
+        hotline_kokoro: { name: 'こころの悩みホットライン',
                          serviceType: '電話相談', 
                          contact: '012-345-0004', 
                          hours: '平日 9:00-17:00', 
                          features: ['仕事の悩み特化', '専門相談員'], 
                          description: '職場の人間関係や業務に関する悩みに特化した相談窓口です。' },
         caregiving_support_phone: { name: '介護電話相談', 
-                                   serviceType: '電話相談', 
+                                   serviceType: '電話相談',
                                    contact: '012-345-0005', 
                                    hours: '平日 9:00-17:00', 
                                    features: ['介護問題専門', '家族の悩み'], 
                                    description: 'ご家族の介護など、私生活に関する悩みを専門家に相談できます。' },
         health_and_mind_consult: { name: 'こころとからだの健康相談', 
-                                  serviceType: '電話・オンライン・対面相談', 
+                                  serviceType: '電話・オンライン・対面相談',
                                   contact: '012-345-0006', 
                                   hours: '平日 9:00-18:00', 
                                   features: ['総合相談', '幅広い対応', '初期相談に最適'], 
@@ -171,43 +170,44 @@
                        features: ['LINEで手軽に', '若手教員向け'], 
                        description: 'チャット形式で気軽に専門家に相談できる、新しい形の窓口です。' },
         teacher_support_consult: { name: '教職員サポート相談', 
-                                  serviceType: '対面相談',
+                                  serviceType: '対面相談', 
                                   contact: '要予約', 
                                   hours: '平日夜間中心', 
-                                  features: ['対面', '教職員特化', 'じっくり相談'],
+                                  features: ['対面', '教職員特化', 'じっくり相談'], 
                                   description: '仕事終わりに、落ち着いた環境で専門家と対面で話せます。' },
         yorozu_consult: { name: '教職員よろず相談', 
                          serviceType: '対面相談', 
-                         contact: '要予約', 
+                         contact: '要予約',
                          hours: '土日中心', 
                          features: ['休日対応', '対面', '何でも相談'], 
                          description: '仕事からプライベートまで、あらゆる悩みを休日に相談できる窓口です。' },
         sc_consult: { name: 'スクールカウンセラー等を活用した教職員メンタルヘルス相談', 
-                     serviceType: '対面相談',
+                     serviceType: '対面相談', 
                      contact: '各学校のSCに確認', 
-                     hours: '平日昼間',
-                     features: ['身近な専門家', '学校内での相談'],
+                     hours: '平日昼間', 
+                     features: ['身近な専門家', '学校内での相談'], 
                      description: '勤務校のスクールカウンセラーなど、身近な専門家に相談できます。' },
-        stress_consult: { name: '教職員ストレス相談',
+        stress_consult: { name: '教職員ストレス相談', 
                          serviceType: '対面相談', 
-                         contact: '要予約', 
+                         contact: '要予約',
                          hours: '平日昼間', 
                          features: ['ストレス専門', '対面'], 
                          description: 'ストレスの原因分析や対処法について、専門家と対面で相談します。' },
         web_consult: { name: 'Web相談（こころの相談）', 
                       serviceType: 'メール相談', 
-                      contact: 'https://example.com/webform',
+                      contact: 'soudan@example.com', 
                       hours: '24時間受付', 
-                      features: ['自分のペースで', '文章で整理'], description: '文章でじっくり考えをまとめて相談したい方に適しています。' },
+                      features: ['自分のペースで', '文章で整理', 'メール相談'], 
+                      description: '文章でじっくり考えをまとめて相談したい方に適しています。' },
         support_group: { name: '教職員を支える会', 
-                        serviceType: 'グループ活動', 
-                        contact: '月1回開催',
+                        serviceType: 'グループ活動',
+                        contact: '月1回開催', 
                         hours: '土日中心', 
                         features: ['仲間との交流', 'ピアサポート'], 
                         description: '同じ立場の仲間と悩みを分かち合い、支え合うグループ活動です。' },
         encounter_group: { name: 'エンカウンターグループ体験講座', 
                           serviceType: 'グループ活動', 
-                          contact: '定期開催',
+                          contact: '定期開催', 
                           hours: '土日中心', 
                           features: ['対人関係スキル向上', '体験学習'], 
                           description: 'グループでの対話を通じて、自己理解や他者理解を深めます。' }
@@ -222,17 +222,16 @@
         { id: 'symptoms', question: '主な相談内容は何ですか？', 
          options: [ { value: 'mental', label: '😟 気分の落ち込み・不安など精神的なもの' },
                    { value: 'physical', label: '😴 頭痛・疲労など身体的なもの' },
-                   { value: 'workplace', label: '💼 仕事に関する悩み' },
+                   { value: 'workplace', label: '💼 仕事に関する悩み' }, 
                    { value: 'private', label: '🏠 私生活に関する悩み' } ] },
         { id: 'preference', question: '相談方法の希望は？', 
          options: [ { value: 'phone', label: '📞 電話で相談したい' }, 
                    { value: 'online', label: '💻 オンラインやメールで相談したい' }, 
-                   { value: 'face', label: '👥 対面でじっくり話したい' },
                    { value: 'medical', label: '🏥 医師の診察を受けたい' } ] },
         { id: 'timing', question: '相談可能な時間帯は？', 
-         options: [ { value: 'anytime', label: '🌙 いつでも（24時間対応希望）' },
-                   { value: 'business', label: '🌅 平日の日中' }, 
-                   { value: 'evening', label: '🌆 平日の夕方・夜間' }, 
+         options: [ { value: 'anytime', label: '🌙 いつでも（24時間対応希望）' }, 
+                   { value: 'business', label: '🌅 平日の日中' },
+                   { value: 'evening', label: '🌆 平日の夕方・夜間' },
                    { value: 'weekend', label: '📅 土日・祝日' } ] }
     ];
 
@@ -251,7 +250,7 @@
             return { primary: 'health_and_mind_consult', secondary: ['mental_health_consult'], notice: '幅広い相談に対応できる総合窓口です。' };
         }
         if (urgency === 'urgent') {
-            if (preference === 'online' && (timing === 'evening' || timing === 'weekend')) return { primary: 'line_consult', secondary: [], notice: 'LINEで気軽に相談できる窓口です。' };
+            if (preference === 'online' && (timing === 'evening' || timing === 'weekend')) return { primary: 'line_consult', secondary: ['web_consult'], notice: 'LINEで気軽に相談できる窓口です。' };
             if (preference === 'face') {
                 if (timing === 'evening') return { primary: 'teacher_support_consult', secondary: ['yorozu_consult'], notice: '平日夜間に対面で相談できる窓口です。' };
                 if (timing === 'business' && symptoms === 'workplace') return { primary: 'sc_consult', secondary: ['stress_consult'], notice: '職場で身近な専門家に相談できます。' };
@@ -328,42 +327,60 @@
         resultContainer.innerHTML = '';
         if (!primaryService) { resultContainer.innerHTML = '<p>エラー</p>'; return; }
 
-        let primaryHTML = `<div class="result-card primary"><h3>${primaryService.name}</h3><p>${primaryService.description}</p>`;
-        primaryHTML += `<div>${(primaryService.features || []).map(f => `<span class="feature-tag">${f}</span>`).join('')}</div></div>`;
-        resultContainer.innerHTML = primaryHTML;
+        const createServiceCard = (service, typeClass, notice = '') => {
+            let cardHTML = `<div class="result-card ${typeClass}"><h3>${service.name}</h3><p style="margin-bottom: 1rem;">${service.description}</p>`;
+            cardHTML += `<div style="margin-bottom: 1rem;">${(service.features || []).map(f => `<span class="feature-tag">${f}</span>`).join('')}</div>`;
+            cardHTML += `<p style="font-size: 0.9rem; margin: 0.5rem 0;"><strong>相談形式:</strong> ${service.serviceType || ''}</p>`;
+            cardHTML += `<p style="font-size: 0.9rem; margin: 0.5rem 0;"><strong>対応時間:</strong> ${service.hours || ''}</p>`;
+            if (notice) cardHTML += `<p style="font-size: 0.9rem; margin-top: 1rem; color: #555; font-style: italic;">${notice}</p>`;
+            cardHTML += `</div>`;
+            return cardHTML;
+        };
+
+        resultContainer.innerHTML = createServiceCard(primaryService, 'primary', result.notice);
 
         const contactButtonContainer = document.getElementById('contactButtonContainer');
-        if (primaryService.contact && primaryService.contact.startsWith('0')) { contactButtonContainer.innerHTML = `<button class="contact-button" onclick="handleContact('${primaryService.contact}', 'phone')">📞 ${primaryService.contact} に電話する</button>`; }
-        else if (primaryService.contact && primaryService.contact.startsWith('http')) { contactButtonContainer.innerHTML = `<a href="${primaryService.contact}" class="contact-button" onclick="handleContact('${primaryService.contact}', 'web')" target="_blank">🌐 ウェブサイトを開く</a>`; }
-        else { contactButtonContainer.innerHTML = `<button class="contact-button" onclick="handleContact('${primaryService.contact}', 'other')">📝 連絡方法を確認</button>`; }
+        contactButtonContainer.innerHTML = '';
+        if (primaryService.contact) {
+            let href = '', buttonText = '', icon = '', type = 'link';
+            if (primaryService.contact.includes('@')) { href = `mailto:${primaryService.contact}`; buttonText = 'メールで相談する'; icon = '✉️'; }
+            else if (primaryService.contact.match(/^[0-9\-]+$/)) { href = `tel:${primaryService.contact}`; buttonText = `に電話する`; icon = '📞 ' + primaryService.contact; }
+            else if (primaryService.contact.startsWith('http')) { href = primaryService.contact; buttonText = 'ウェブサイトを開く'; icon = '🌐'; }
+            else { href = '#'; buttonText = '連絡方法を確認'; icon = '📝'; type = 'other'; }
+            contactButtonContainer.innerHTML = `<a href="${href}" class="contact-button" onclick="handleContact(event, '${primaryService.contact}', '${type}')" ${href.startsWith('http') ? 'target="_blank"' : ''}>${icon} ${buttonText}</a>`;
+        }
 
         if (result.secondary && result.secondary.length > 0) {
-            let secondaryHTML = '<h4 style="margin-top: 2rem; color: #1e293b;">こちらの窓口もご検討ください</h4>';
+            let secondaryHTML = '<h4 style="margin-top: 2.5rem; color: #1e293b;">こちらの窓口もご検討ください</h4>';
             result.secondary.forEach(id => {
                 const service = counselingServices[id];
-                if(service) secondaryHTML += `<div class="result-card secondary" style="padding: 1.5rem;"><h5>${service.name}</h5><p style="margin:0;font-size:1rem;"><strong>相談形式：</strong> ${service.serviceType || ''}</p></div>`;
+                if (service) secondaryHTML += createServiceCard(service, 'secondary');
             });
             resultContainer.innerHTML += secondaryHTML;
         }
     }
     
-    function handleContact(contact, type) {
+    function handleContact(event, contact, type) {
         const result = recommendService(appState.answers);
         const primaryService = counselingServices[result.primary];
         saveToGAS(appState.answers, primaryService, true);
-        if (type === 'phone' || type === 'other') alert(`連絡先: ${contact}`);
+        if (type === 'other') { event.preventDefault(); alert(`連絡方法: ${contact}`); }
     }
 
     function initApp() {
         displayQuestion();
         document.getElementById('backButton').onclick = () => { if (appState.currentStep > 0) { appState.currentStep--; displayQuestion(); } };
         document.getElementById('restartButton').onclick = () => location.reload();
+        
         document.getElementById('showResultTextButton').onclick = () => {
             const result = recommendService(appState.answers);
             const primaryService = counselingServices[result.primary];
-            let text = `【診断結果】\n推奨窓口: ${primaryService.name}\n連絡先: ${primaryService.contact}\n利用時間: ${primaryService.hours}\n相談形式: ${primaryService.serviceType}\n特徴: ${primaryService.features.join(', ')}\n説明: ${primaryService.description}`;
-            document.getElementById('resultText').textContent = text;
-            document.getElementById('resultTextContainer').classList.toggle('hidden');
+            let text = `【あなたへのおすすめ】\n■ ${primaryService.name}\n相談形式: ${primaryService.serviceType || ''}\n対応時間: ${primaryService.hours || ''}\n連絡先: ${primaryService.contact || ''}\n特徴: ${primaryService.features.join(', ')}\n\n`;
+            if (result.secondary && result.secondary.length > 0) {
+                text += `【その他の候補】\n`;
+                result.secondary.forEach(id => { const service = counselingServices[id]; if (service) text += `■ ${service.name}\n`; });
+            }
+            navigator.clipboard.writeText(text).then(() => { alert('診断結果をクリップボードにコピーしました！'); }).catch(err => { console.error('コピー失敗:', err); alert('コピーに失敗しました。'); });
         };
     }
 
@@ -372,7 +389,7 @@
     </script>
 
     <!-- 非表示フォーム（GAS送信用） -->
-    <form id="gasForm" action="【ここにあなたのGASのWebアプリURLを貼り付けてください】" method="POST" target="hiddenFrame" style="display: none;">
+    <form id="gasForm" action="https://script.google.com/macros/s/AKfycbzZnGD5p-fc2jHlOlj0GhO9JHeUjy37WG2HpYa4N4SpTfJPyrIHqna5IYEDrhL9vsqv/exec" method="POST" target="hiddenFrame" style="display: none;">
         <input type="hidden" name="sessionId"><input type="hidden" name="timestamp"><input type="hidden" name="date"><input type="hidden" name="weekday"><input type="hidden" name="time"><input type="hidden" name="urgency"><input type="hidden" name="symptoms"><input type="hidden" name="preference"><input type="hidden" name="timing"><input type="hidden" name="recommendedService"><input type="hidden" name="serviceType"><input type="hidden" name="contactClicked"><input type="hidden" name="hour">
     </form>
     <iframe name="hiddenFrame" style="display: none;"></iframe>
