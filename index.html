@@ -330,13 +330,33 @@
             return cardHTML;
         };
 
-        const createContactButton = (service) => {
+               const createContactButton = (service) => {
             if (!service || !service.contact) return '';
             let href = '', buttonText = '', icon = '', type = 'link';
-            if (service.contact.includes('@')) { href = `mailto:${service.contact}`; buttonText = 'メールで相談する'; icon = '✉️'; }
-            else if (service.contact.match(/^[0-9\-]+$/)) { href = `tel:${service.contact}`; buttonText = `に電話する`; icon = '📞 ' + service.contact; }
-　　　　　　 else if (service.contact.startsWith('http')) { href = service.contact; buttonText = service.contact; icon = '🌐';
-            else { href = '#'; buttonText = '連絡方法を確認'; icon = '📝'; type = 'other'; }
+            
+            if (service.contact.includes('@')) {
+                // メールアドレスの場合
+                href = `mailto:${service.contact}`;
+                buttonText = 'メールで相談する';
+                icon = '✉️';
+            } else if (service.contact.match(/^[0-9\-]+$/)) {
+                // 電話番号の場合
+                href = `tel:${service.contact}`;
+                buttonText = `に電話する`;
+                icon = '📞 ' + service.contact;
+            } else if (service.contact.startsWith('http')) {
+                // URLの場合 
+                href = service.contact;
+                buttonText = service.contact; // ボタンのテキストをURLそのものにする
+                icon = '🌐';
+            } else {
+                // その他の場合
+                href = '#';
+                buttonText = '連絡方法を確認';
+                icon = '📝';
+                type = 'other';
+            }
+            // aタグの開始タグを修正し、ボタン全体でクリックできるようにする
             return `<a href="${href}" class="contact-button" onclick="handleContact(event, '${service.contact}', '${type}', '${service.name}')" ${href.startsWith('http') ? 'target="_blank"' : ''}>${icon} ${buttonText}</a>`;
         }
 
