@@ -10,7 +10,7 @@
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background: linear-gradient(135deg, #00bfff 0%, #87cefa 100%); min-height: 100vh; padding: 20px; }
         .container { max-width: 800px; margin: 0 auto; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden; }
         .main-header { text-align: center; color: #1e40af; padding: 3rem 2rem 2rem; background: linear-gradient(135deg, #f8fafc, #e2e8f0); }
-        .main-header h1 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 700; }
+        .main-header h1 { font-size: 2.0rem; margin-bottom: 1rem; font-weight: 700; }
         .main-header p { font-size: 1.2rem; color: #64748b; }
         .content { padding: 2rem; }
         .progress-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
@@ -46,7 +46,7 @@
 <body>
     <div class="container">
         <div class="main-header">
-            <h1>📋 相談窓口提案ツール</h1>
+            <h1>📋 こころ・からだの相談窓口提案ツール</h1>
             <p>簡単な質問に答えて、あなたに最適な相談窓口を見つけましょう</p>
         </div>
 
@@ -344,7 +344,7 @@
                 icon = '📞 ' + service.contact;
             } else if (service.contact.startsWith('http')) {
                 href = service.contact;
-                buttonText = service.contact; // ボタンのテキストをURLそのものに変更
+                buttonText = service.contact`へ移動する`; // ボタンのテキストをURLそのものに変更
                 icon = '🌐';
             } else {
                 href = '#';
