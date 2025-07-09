@@ -118,7 +118,7 @@
                              contact: 'https://www.okayamafukurinet.jp/data/52/health_page/', 
                              hours: '24時間　年中無休', 
                              features: ['24時間', '保健師対応', '無料','回数制限なし'], 
-                             description: '共済本部が開設する24時間窓口です。マイページ内で電話番号をご確認ください。' },
+                             description: '共済本部が開設する24時間窓口です。下記のURLでマイページへログインして電話番号をご確認ください。' },
         medical_chugoku_central: { name: 'メンタルヘルス相談（中国中央病院）',
                                   serviceType: '医療機関受診', 
                                   contact: '012-345-0002', 
@@ -344,7 +344,7 @@
                 icon = '📞 ' + service.contact;
             } else if (service.contact.startsWith('http')) {
                 href = service.contact;
-                buttonText = service.contact + 'へ移動する'; // ボタンのテキストをURLそのものに変更
+                buttonText = service.contact ; // ボタンのテキストをURLそのものに変更
                 icon = '🌐';
             } else {
                 href = '#';
