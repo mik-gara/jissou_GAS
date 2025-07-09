@@ -233,7 +233,7 @@
         const { urgency, symptoms, preference, timing } = answers;
         const fallbackResult = { primary: 'health_and_mind_consult', secondary: ['mental_health_consult'], notice: 'ご希望に近い総合相談窓口をご案内します。' };
         if (urgency === 'emergency' && timing === 'anytime') return { primary: 'health_support_24h', secondary: [], notice: 'ご希望に合う24時間対応の窓口です。' };
-        if (preference === 'medical') return { primary: 'medical_chugoku_central', secondary: ['female_doctor_phone'], notice: '医師による相談には、対面が可能な「メンタルヘルス相談（中国中央病院）」（平日昼間）をお勧めします。電話での相談をご希望の場合は「女性医師電話相談」もございます。' };
+        if (preference === 'medical') return { primary: 'stress_consult', secondary: ['female_doctor_phone'], notice: '医師による相談には、医療機関に繋がる「教職員ストレス相談」（平日昼間）をお勧めします。電話での相談をご希望の場合は「女性医師電話相談」もございます。' };
         if (urgency === 'emergency') {
             if (preference === 'phone') {
                 if (symptoms === 'workplace') return { primary: 'hotline_kokoro', secondary: ['mental_health_consult'], notice: '仕事の悩みに特化した電話窓口です。' };
