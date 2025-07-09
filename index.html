@@ -344,7 +344,7 @@
                 icon = '📞 ' + service.contact;
             } else if (service.contact.startsWith('http')) {
                 href = service.contact;
-                buttonText = service.contact`へ移動する`; // ボタンのテキストをURLそのものに変更
+                buttonText = service.contact + 'へ移動する'; // ボタンのテキストをURLそのものに変更
                 icon = '🌐';
             } else {
                 href = '#';
