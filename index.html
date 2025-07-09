@@ -335,7 +335,7 @@
             let href = '', buttonText = '', icon = '', type = 'link';
             if (service.contact.includes('@')) { href = `mailto:${service.contact}`; buttonText = 'メールで相談する'; icon = '✉️'; }
             else if (service.contact.match(/^[0-9\-]+$/)) { href = `tel:${service.contact}`; buttonText = `に電話する`; icon = '📞 ' + service.contact; }
-            else if (service.contact.startsWith('http')) { href = service.contact; buttonText = 'ウェブサイトを開く'; icon = '🌐'; }
+　　　　　　 else if (service.contact.startsWith('http')) { href = service.contact; buttonText = service.contact; icon = '🌐';
             else { href = '#'; buttonText = '連絡方法を確認'; icon = '📝'; type = 'other'; }
             return `<a href="${href}" class="contact-button" onclick="handleContact(event, '${service.contact}', '${type}', '${service.name}')" ${href.startsWith('http') ? 'target="_blank"' : ''}>${icon} ${buttonText}</a>`;
         }
