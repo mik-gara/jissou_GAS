@@ -71,7 +71,7 @@
             <div id="resultSection" class="hidden">
                 <div style="text-align: center; margin-bottom: 2rem;">
                     <h2>✅ おすすめの相談窓口</h2>
-                    <p>あなたの状況に最適な窓口をご提案します</p>
+                    <p>あなたに最適な窓口をご提案します</p>
                 </div>
 
                 <div class="action-buttons">
@@ -93,7 +93,7 @@
             </div>
 
             <div class="footer">
-                💡 すべての相談は秘密が守られます。相談は勇気のいることですが、専門家があなたをサポートします。一人で抱え込まず、まずは気軽にご連絡ください。
+                💡 すべての相談は秘密が守られます。<br>相談は勇気のいることですが、専門家があなたをサポートします。<br>一人で抱え込まず、まずは気軽にご連絡ください。
             </div>
         </div>
     </div>
@@ -368,7 +368,7 @@
             let cardHTML = `<div class="result-card ${typeClass}"><h3>${service.name}</h3><p style="margin-bottom: 1rem;">${service.description}</p>`;
             cardHTML += `<div style="margin-bottom: 1rem;">${(service.features || []).map(f => `<span class="feature-tag">${f}</span>`).join('')}</div>`;
             cardHTML += `<p style="font-size: 0.9rem; margin: 0.5rem 0;"><strong>相談形式:</strong> ${service.serviceType || ''}</p>`;
-            cardHTML += `<p style="font-size: 0.9rem; margin: 0.5rem 0;"><strong>対応時間:</strong> ${service.hours || ''}</p>`;
+            cardHTML += `<p style="font-size: 0.9rem; margin: 0.5rem 0;"><strong>受付時間:</strong> ${service.hours || ''}</p>`;
             if (notice) cardHTML += `<p style="font-size: 0.9rem; margin-top: 1rem; color: #555; font-style: italic;">${notice}</p>`;
             cardHTML += `</div>`;
             return cardHTML;
